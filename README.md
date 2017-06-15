@@ -147,6 +147,27 @@ myRouter.match({path: '/some/path', method: 'GET'});
 myRouter.match({path: '/some/path/to', method: 'GET'}); 
 // returns null
 ```
+####Generate custom query string
+```javascript
+var myRoutes = [{
+    id: 'route_with_parameters',
+    path: '/some/path/{parameter}'
+}];
+
+var myRouter = new RouterBase({
+    routes: myRoutes,
+    generateQuery: function (params) {
+        var query = '';
+        
+        // generate custom query (in this example, convert array parameters as separate string parameters with brackets)
+        
+        return query;
+    }
+});
+
+myRouter.generate('route_with_parameters', {parameter: 1, fruits: ['apple', 'banana']}); 
+// returns '/a/route/1?fruits[]=apple&fruits[]=banana'
+```
 
 ##All possible routes parameters
 
@@ -161,12 +182,13 @@ myRouter.match({path: '/some/path/to', method: 'GET'});
 ##RouterBase parameters
 
 1. routes - an Array of routes configs, the only required parameter
-2. defaultMethods - what methods available for routes, `['GET', 'POST', 'PUT', 'DELETE']` by default
-3. defaultSchemes - what schemes available for routes, `['http', 'https']` by default
-4. symbols.parametersDelimiters. By default, `.` and `/` can be used as parameters delimiters in paths
-5. symbols.parameterStart, default value is '\{'
-6. symbols.parameterMatcher, default value is '.*?'
-7. symbols.parameterEnd, default value is '\}'
+2. generateQuery - overrides default string query generate with your own custom function
+3. defaultMethods - what methods available for routes, `['GET', 'POST', 'PUT', 'DELETE']` by default
+4. defaultSchemes - what schemes available for routes, `['http', 'https']` by default
+5. symbols.parametersDelimiters. By default, `.` and `/` can be used as parameters delimiters in paths
+6. symbols.parameterStart, default value is '\{'
+7. symbols.parameterMatcher, default value is '.*?'
+8. symbols.parameterEnd, default value is '\}'
 
 ##Where is tests?
 Of course, in `test` folder. Use `npm test` to run.
